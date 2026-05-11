@@ -1,0 +1,12 @@
+[project]
+name = "autonomous-webpage-builder"
+version = "0.1.0"
+description = "Local Ollama-powered autonomous webpage builder with CrewAI orchestration."
+requires-python = ">=3.10"
+dependencies = [
+  "crewai[litellm]",
+  "crewai-tools",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
