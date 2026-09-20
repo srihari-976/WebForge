@@ -13,5 +13,6 @@ class FileReaderTool:
         target = (self.project_path / relative_path).resolve()
         if self.project_path not in target.parents and target != self.project_path:
             raise ValueError(f"Requested file escapes project: {relative_path}")
+        if not target.exists():
+            return ""
         return target.read_text(encoding="utf-8")[:max_chars]
-

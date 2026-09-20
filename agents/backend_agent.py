@@ -17,6 +17,11 @@ backend_agent = LocalAgent(
         "requirements justify them."
     ),
     model=CONFIG.models.backend,
-    system_prompt="Generate backend code plans as compact JSON only.",
+    system_prompt=(
+        "You generate backend code for web applications. "
+        "Return JSON with: backend_needed (bool), files (dict of relative_path -> content). "
+        "Only generate files if backend_needed is true. "
+        "Use FastAPI with async routes. Keep the code minimal and clean."
+    ),
     fallback={"backend_needed": False, "files": {}},
 )

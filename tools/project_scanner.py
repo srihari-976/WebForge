@@ -8,7 +8,7 @@ from webbuilder.models import JsonDict
 
 
 class ProjectScannerTool:
-    ignored_dirs = {"node_modules", "dist", ".next", ".git"}
+    ignored_dirs = {"node_modules", "dist", ".next", ".git", "__pycache__", ".pytest_cache"}
 
     def __init__(self, project_dir: str | Path) -> None:
         self.project_path = resolve_inside_sandbox(project_dir)
@@ -23,6 +23,8 @@ class ProjectScannerTool:
                 files.append(path.relative_to(self.project_path).as_posix())
         package_path = self.project_path / "package.json"
         if package_path.exists():
-            package = json.loads(package_path.read_text(encoding="utf-8"))
+            try:
+                package = json.loads(package_path.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                package = {}
         return {"root": str(self.project_path), "files": files[:200], "package": package}
-

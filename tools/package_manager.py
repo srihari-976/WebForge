@@ -13,5 +13,16 @@ class PackageManagerTool:
     def install(self, packages: list[str]) -> CommandResult | None:
         if not packages:
             return None
-        return self.terminal.run(["npm", "install", *packages], timeout=180)
+        npm_packages = [p for p in packages if not p.startswith("pip:")]
+        pip_packages = [p[4:] for p in packages if p.startswith("pip:")]
 
+        result: CommandResult | None = None
+        if npm_packages:
+            result = self.terminal.run(["npm", "install", *npm_packages], timeout=180)
+        if pip_packages:
+            pip_result = self.terminal.run(["pip", "install", *pip_packages], timeout=180)
+            if result is None:
+                result = pip_result
+            elif not pip_result.ok:
+                result = pip_result
+        return result

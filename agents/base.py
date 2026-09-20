@@ -71,7 +71,6 @@ class LocalAgent:
                 goal=self.goal,
                 backstory=self.backstory,
                 llm=llm,
-                function_calling_llm=llm,
                 verbose=False,
                 allow_delegation=False,
                 max_iter=5,

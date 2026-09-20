@@ -5,7 +5,6 @@ description = "Local Ollama-powered autonomous webpage builder with CrewAI orche
 requires-python = ">=3.10"
 dependencies = [
   "crewai[litellm]",
-  "crewai-tools",
 ]
 
 [tool.pytest.ini_options]

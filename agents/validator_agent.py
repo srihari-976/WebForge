@@ -16,7 +16,7 @@ validator_agent = LocalAgent(
         "user will experience them: routes should exist, dependencies should match "
         "imports, layouts should adapt, and accessibility basics should be present."
     ),
-    model=CONFIG.models.planner,
+    model=CONFIG.models.validator,
     system_prompt="Validate a generated project summary. Return compact JSON only.",
-    fallback={"valid": True, "issues": []},
+    fallback={"valid": True, "issues": [], "suggestions": []},
 )

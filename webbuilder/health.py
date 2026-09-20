@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import json
+import logging
+import re
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
 
 from webbuilder.config import CONFIG
+
+logger = logging.getLogger(__name__)
+
+ANSI_PATTERN = re.compile(r"\x1b\[[0-9;]*m")
 
 
 @dataclass(frozen=True)
@@ -28,7 +34,8 @@ class HealthCheck:
             f"Missing required models: {', '.join(self.missing_models) or 'none'}",
         ]
         if self.error:
-            lines.append(f"Error: {self.error}")
+            error_clean = ANSI_PATTERN.sub("", self.error)
+            lines.append(f"Error: {error_clean}")
         lines.append(f"Overall: {'OK' if self.ok else 'NOT READY'}")
         return "\n".join(lines)
 
@@ -43,6 +50,7 @@ def required_models() -> list[str]:
             models.frontend,
             models.backend,
             models.debugger,
+            models.validator,
         }
     )
 
@@ -89,4 +97,3 @@ def ensure_ollama_model_available(model: str) -> None:
         raise RuntimeError(f"Ollama is not reachable at {CONFIG.ollama_host}: {exc}") from exc
     if model not in available_models:
         raise RuntimeError(f"Ollama model '{model}' is not installed. Run: ollama pull {model}")
-

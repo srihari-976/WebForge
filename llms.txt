@@ -1,20 +1,42 @@
-# Autonomous Web Engineering Platform
+# WebForge - Autonomous Web Engineering Platform
 
 ## Agents
-- Orchestrator
-- Frontend Generator
-- Debugger
+- Orchestrator: workflow management, task delegation, execution ordering
+- Requirement Analyzer: extracts structured requirements from natural language
+- UI/UX Planner: designs page structure, responsive layout, component hierarchy
+- Frontend Developer: generates React/Next.js/Vue code with TailwindCSS
+- Backend Agent: generates FastAPI routes, auth, CRUD when needed
+- Debugger: reads terminal logs, proposes safe file patches
+- Validator QA: checks structure, routes, dependencies, accessibility
 
 ## Tools
-- FileWriterTool
-- TerminalTool
+- FileWriterTool: writes generated files to sandbox with path guard
+- FileReaderTool: reads files from sandbox
+- TerminalTool: runs allowlisted commands (npm, node, npx, pip)
+- ErrorLogTool: summarizes error output from terminal
+- PackageManagerTool: installs additional npm packages
+- ProjectScannerTool: scans project tree and reads package.json
+- PathGuard: prevents sandbox escape via path traversal
+- TemplateRetrievalTool: lists and retrieves project templates
+
+## Templates
+- vite_react_saas: Vite + React + TypeScript + TailwindCSS SaaS page
+- nextjs_saas: Next.js App Router + TailwindCSS SaaS page
+- vite_vue: Vite + Vue 3 + TailwindCSS landing page
+- static_html: Pure HTML/CSS static site (no build tools)
 
 ## Architecture
-- CrewAI
-- Ollama
-- FastAPI
-- Next.js
+- CrewAI for agent orchestration
+- Ollama for local LLM inference (qwen2.5 family)
+- FastAPI-ready backend generation
+- Sandboxed file operations with path guard
+- Deterministic templates preferred over blank-page generation
+- Error-driven repair loop with debugger agent
 
 ## Rules
-- Never overwrite files directly
-- Always validate builds
+- Never overwrite files directly outside sandbox
+- Always validate builds before declaring success
+- Use templates whenever possible
+- Keep context passed to models minimal
+- Debug iteratively from real terminal output
+- Sanitize terminal output to prevent injection
